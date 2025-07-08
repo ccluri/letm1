@@ -90,10 +90,15 @@ e7 = pyrs/psis/C_mito
 to_psi = lambda dpsi : ((dpsi * 0.15) - PSI_min) / (PSI_max - PSI_min)
 to_dpsi = lambda psi : ((psi*(PSI_max-PSI_min)) + PSI_min) / 0.15
 
-jjinfk = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
-jjinfv = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
-jjinfp = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
-jjinfc = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
+# jjinfk = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
+# jjinfv = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
+# jjinfp = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
+# jjinfc = lambda ca_mat : 10 / (1 + exp(-0.5*(ca_mat-9)))
+
+jjinfk = lambda ca_mat : 1 / (1 + exp(-0.5*(ca_mat-9)))
+jjinfv = lambda ca_mat : 1 / (1 + exp(-0.5*(ca_mat-9)))
+jjinfp = lambda ca_mat : 1 / (1 + exp(-0.5*(ca_mat-9)))
+jjinfc = lambda ca_mat : 1 / (1 + exp(-0.5*(ca_mat-9)))
 
 
 class Mito(object):
@@ -172,10 +177,10 @@ class Mito(object):
 
     def ca_derivatives(self):
         # ca depn variables
-        self.djjKdt = (jjinfk(self.ca_mat) - self.jjK) / 10
-        self.djjVdt = (jjinfv(self.ca_mat) - self.jjV) / 10
-        self.djjPdt = (jjinfp(self.ca_mat) - self.jjP) / 10
-        self.djjCdt = (jjinfc(self.ca_mat) - self.jjC) / 10
+        self.djjKdt = (jjinfk(self.ca_mat) - self.jjK) / 100000
+        self.djjVdt = (jjinfv(self.ca_mat) - self.jjV) / 100000
+        self.djjPdt = (jjinfp(self.ca_mat) - self.jjP) / 100000
+        self.djjCdt = (jjinfc(self.ca_mat) - self.jjC) / 100000
 
         
     def update_vals(self, dt, atp_cost=0, leak_cost=0, ca_mat=0):
