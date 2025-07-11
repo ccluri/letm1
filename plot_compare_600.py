@@ -58,29 +58,32 @@ window_size = 60*1000*int(1/0.01)
 min_window_size = 6000000 # 1000*int(1/0.01)
 total_min = sec_to_min(ms_to_sec(total))
 
-ll = ['Control', 'Letm1']
-cs = ['k', 'C0']
+ll = ['Control', 'Letm1', 'PDP1', 'PDP1+Letm1']
+cs = ['k', 'C0', 'C1', 'C2']
 
-for jj, ii in enumerate(['100000tau_100_regular_10Hz_7_Control_600AP_2long.npz',
-                         '100000tau_100_regular_10Hz_20_Letm1_600AP_2long.npz']):
+for jj, ii in enumerate([
+        '100000tau_100_regular_10Hz_7_Control_600AP_2long.npz',
+        '100000tau_100_regular_10Hz_20_Letm1_600AP_2long.npz',
+        '100_regular_10Hz_7_PDP1_600AP_2long.npz',
+        '100_regular_10Hz_20_Letm1+PDP1_600AP_2long.npz']):
     data = np.load(ii)
-    # vv = [data['atp'][0]]
-    # tpts = [0]
-    # for tt in range(1, 11):
-    #     vv.append(np.mean(data['atp'][(tt-1)*min_window_size: (tt*min_window_size)-1]))
-    #     tpts.append(tt)
-    #     print(vv[-1], tt)
-    # plt.plot(tpts, vv, label=ll[jj], c=cs[jj], lw=2)
-    if jj == 0:
-        zscore=10
-    else:
-        zscore=9
-    plt.plot(data['atp'][::5000], label=ll[jj], c=cs[jj], zorder=zscore, lw=0.5, alpha=0.8)
+    vv = [data['atp'][0]]
+    tpts = [0]
+    for tt in range(1, 11):
+        vv.append(np.mean(data['atp'][(tt-1)*min_window_size: (tt*min_window_size)-1]))
+        tpts.append(tt)
+        print(vv[-1], tt)
+    plt.plot(tpts, vv, label=ll[jj], c=cs[jj], lw=2)
+    # if jj == 0:
+    #     zscore=10
+    # else:
+    #     zscore=9
+    # plt.plot(data['atp'][::5000], label=ll[jj], c=cs[jj], zorder=zscore, lw=0.5, alpha=0.8)
 plt.legend(frameon=False)
 plt.xlabel('Time (mins)')
 plt.ylabel('ATP (a.u.)')
 
-plt.xticks([0, 2000, 4000, 6000, 8000, 10000, 12000], [0, 2, 4, 6, 8, 10, 12])
+# plt.xticks([0, 2000, 4000, 6000, 8000, 10000, 12000], [0, 2, 4, 6, 8, 10, 12])
 
-plt.savefig('100000tau_compare_finer.png')
+plt.savefig('100000tau_compare_all.png')
 plt.show()
