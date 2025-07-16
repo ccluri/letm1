@@ -8,7 +8,36 @@ class AttributeDict(dict):
     def __setattr__(self, attr, value):
         self[attr] = value
 
+class Recorder_select():
+    def __init__(self, inst, rec_vars_list):
+        self.inst = inst
+        self.rec_vars_list = rec_vars_list
+        self.out = {}
+        for item in rec_vars_list:
+            self.out[item] = []
+        self.rec_times = []
 
+    def update(self, tt):
+        for item in self.rec_vars_list:
+            try:
+                rec = getattr(self.inst, item)
+            except AttributeError:  # go deeper
+                start = self.inst
+                for sub_i in item.split('.'):
+                    start = getattr(start, sub_i)
+                rec = start
+            self.out[item].append(rec)
+        self.rec_times.append(tt)
+        return
+
+    def convert_to_arrays(self):
+        for item in self.rec_vars_list:
+            self.out[item] = np.array(self.out[item])
+        self.rec_times = np.array(self.rec_times)
+        return
+            
+
+        
 class Recorder():
     def __init__(self, inst, rec_vars_list, time, dt):
         self.inst = inst

@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import stats
 from utils import Recorder_select, Q_nak
-from mitochondria import Mito
+from mitochondria_PDP1KD import Mito
 import matplotlib.pyplot as plt
 from figure_properties import *
 
@@ -108,9 +108,9 @@ if __name__ == '__main__':
     rec_letm1 = spike_train_costs(time, tt, baseline_atp, spike_vals, ca_letm1)
     # rec_mcukd = spike_train_costs(time, tt, baseline_atp, spike_vals, ca_cntrl*0)
 
-    labels = ['Control', 'Letm1'] #, 'MCUKD']
+    labels = ['PDP1', 'Letm1+PDP1'] #, 'MCUKD']
     t_ca = [7, 20] #, 7]
     for ii, rec in enumerate([rec_cntrl, rec_letm1]): #, rec_mcukd]):
-        filename = str(seed) + '_slower_' + str(baseline_atp) + '_poi_'+str(int(firing_freq))+'Hz_' + str(t_ca[ii]) + '_' + labels[ii] + '.npz'
+        filename = str(seed) + '_PDP_slower_' + str(baseline_atp) + '_poi_'+str(int(firing_freq))+'Hz_' + str(t_ca[ii]) + '_' + labels[ii] + '.npz'
         dump_vals(filename, rec, tt, sp_train, spike_vals, ca_cntrl, ca_letm1)
         
